@@ -15,7 +15,6 @@ foreach ($partsEnv as $parts) {
 }
 
 $arrayParts = array_map(fn($item) => str_replace('"', "", $item), $arrayParts);
-define("USUARIO_BANCO", $arrayParts[0]);
-define("HOST", $arrayParts[2]);
-define("SENHA", $arrayParts[1]);
-
+define("USUARIO_BANCO", trim($arrayParts[0]));
+define("HOST", trim($arrayParts[2]));
+define("SENHA", trim($arrayParts[1]));

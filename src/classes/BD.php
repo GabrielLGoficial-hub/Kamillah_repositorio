@@ -6,7 +6,7 @@ class BD
     private string $usuario;
     private string $senha;
     private string $host;
-    private string $banco;
+    private string $banco = "";
     private string $codificacao;
     private mysqli $mysqli;
     private static mixed $instacia = null;
@@ -16,12 +16,14 @@ class BD
         $this->usuario = USUARIO_BANCO;
         $this->senha = SENHA;
         $this->host = HOST;
+        $this->codificacao = $codificacao;
     }
 
-    public static function getInstacia(string $banco = "", string $codificacao = "UTF-8")
+    public static function getInstancia(string $banco = "", string $codificacao = "UTF-8")
     {
         if (self::$instacia === null) {
             self::$instacia = new BD($banco, $codificacao);
+            return self::$instacia;
         }
     }
 
@@ -40,6 +42,7 @@ class BD
         try {
             $this->mysqli->query("DO 1");
             $this->mysqli->set_charset($codificacao);
+            $this->codificacao = $codificacao;
         } catch (mysqli_sql_exception $e) {
             echo "Não é possivel modificar o charset do banco" . $this->mysqli->error;
         }
