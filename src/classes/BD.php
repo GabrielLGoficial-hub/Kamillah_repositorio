@@ -55,6 +55,13 @@ class BD
         return $this->banco;
     }
 
+    public function setBanco(string $banco)
+    {
+        $this->banco = $banco;
+        $this->mysqli->close();
+        $this->conectar();
+    }
+
     public function query(string $sql, array $parametros = [])
     {
         try {
