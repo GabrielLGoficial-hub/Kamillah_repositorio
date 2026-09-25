@@ -1,7 +1,7 @@
 <?php
 class SessionMestre
 {
-    private const TEMPO_MAXIMO_SESSAO = 7200000; //2 horas em milisegundos
+    private int $maxTempoSessao = 0;
     private int $tempoInicioSessao = 0;
     private string $identidade = "";
     private int $idUsuario = 0;
@@ -13,19 +13,20 @@ class SessionMestre
         $this->idUsuario = $idUsuario;
         $this->tempoInicioSessao = time();
         $this->identidade = $this->gerarIdentidade();
+        $this->maxTempoSessao = 7200; //2 horas em segundos
     }
 
     public static function getInstancia(int $idUsuario)
     {
 
         if (self::$instancia === null) {
-            self::$instancia = new SessionMestre($idUsuario);
+            return self::$instancia = new SessionMestre($idUsuario);
         }
     }
 
     public function iniciarSessao()
     {
-        if (session_status() === PHP_SESSION_DISABLED) {
+        if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
     }
@@ -62,7 +63,7 @@ class SessionMestre
 
     public function getTempoMaximo()
     {
-        return self::TEMPO_MAXIMO_SESSAO;
+        return $this->maxTempoSessao;
     }
 
     public function criarChaveSessao()
@@ -80,7 +81,7 @@ class SessionMestre
 
     private function verificarRouboDeIdentidade()
     {
-        if (hash_equals($this->gerarIdentidade(), $_SESSION['identidade'])) {
+        if (!hash_equals($this->gerarIdentidade(), $_SESSION['identidade'])) {
             return true;
         }
         return false;
@@ -96,7 +97,7 @@ class SessionMestre
 
     private function verificarTempoLimite()
     {
-        if ((time() - $_SESSION['tempoInicioSessao']) === self::TEMPO_MAXIMO_SESSAO) {
+        if ((time() - $_SESSION['tempoInicioSessao']) === $this->maxTempoSessao) {
             return true;
         }
         return false;
