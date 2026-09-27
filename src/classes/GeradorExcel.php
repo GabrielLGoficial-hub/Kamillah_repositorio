@@ -7,7 +7,7 @@ class GeradorExcel implements ArquivosInteface
     public function __construct(string $diretorioBase, string $nomeArquivo)
     {
         $this->diretorioBase = $diretorioBase;
-        $this->nomeArquivo = $nomeArquivo;
+        $this->nomeArquivo = pathinfo($nomeArquivo, PATHINFO_EXTENSION) == "csv" ? $diretorioBase : $nomeArquivo . ".csv";
     }
 
     #[Override]
@@ -34,13 +34,25 @@ class GeradorExcel implements ArquivosInteface
     }
 
     #[Override]
-    public function escreverConteudoArquivo()
+    public function escreverConteudoArquivo(array $dados)
     {
-    
+
         $caminhoCompleto = $this->diretorioBase . DIRECTORY_SEPARATOR . $this->nomeArquivo;
         if (file_exists($caminhoCompleto) && is_dir($this->diretorioBase)) {
             $result = fputcsv($caminhoCompleto, $dados);
-            if(!$result){
+            if (!$result) {
+                return false;
+            }
+        }
+    }
+
+    #[Override]
+    public function getConteudo()
+    {
+        $conteudoArquivo = $this->diretorioBase . DIRECTORY_SEPARATOR . $this->nomeArquivo;
+        if (file_exists($conteudoArquivo) && is_dir($this->diretorioBase)) {
+            $result = file_get_contents($conteudoArquivo);
+            if (!$result) {
                 return false;
             }
         }
