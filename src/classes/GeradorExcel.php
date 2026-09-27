@@ -55,6 +55,7 @@ class GeradorExcel implements ArquivosInteface
             if (!$result) {
                 return false;
             }
+            return $result;
         }
     }
 }
