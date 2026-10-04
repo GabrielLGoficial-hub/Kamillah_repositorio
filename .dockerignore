@@ -1,0 +1,74 @@
+# ==========================================================
+# CONTROLE DE VERSÃO / METADADOS
+# ==========================================================
+.git
+.gitignore
+.gitattributes
+.github/
+.gitlab-ci.yml
+
+# ==========================================================
+# DOCKER (não precisam entrar no contexto de build)
+# ==========================================================
+.dockerignore
+Dockerfile
+docker-compose.yml
+docker-compose.override.yml
+
+# ==========================================================
+# AMBIENTE / CREDENCIAIS
+# ==========================================================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ==========================================================
+# DEPENDÊNCIAS (o build instala de novo)
+# ==========================================================
+vendor/
+node_modules/
+
+# ==========================================================
+# LOGS E CACHE
+# ==========================================================
+*.log
+logs/
+tmp/
+.cache/
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+bootstrap/cache/*
+
+# ==========================================================
+# DADOS LOCAIS / UPLOADS
+# ==========================================================
+data/
+db/
+mysql-data/
+uploads/
+*.sqlite
+*.sqlite3
+*.sql
+
+# ==========================================================
+# IDEs / SO
+# ==========================================================
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# ==========================================================
+# DOCUMENTAÇÃO E ARQUIVOS DE DEV
+# ==========================================================
+README.md
+CHANGELOG.md
+LICENSE
+docs/
+tests/
+.phpunit.result.cache
+phpunit.xml
