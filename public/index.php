@@ -14,15 +14,23 @@ $ip = $_SERVER["REMOTE_ADDR"] ?? "";
 $arrayRotas = [
     "/" => [
         "script" => "paginaRegistro.php",
-        "status" => "segura"
+        "status" => "publica"
+    ],
+    "/api/cadastro" => [
+        "script" => "controllerRegistro.php",
+        "status" => "publica"
     ]
 
 ];
 
 if (isset($metodo) and isset($url)) {
     foreach ($arrayRotas as $rota => $script) {
-        if ($rota === $url && $script["status"] === "segura") {
+        if ($rota === $url && $script["status"] === "publica" && $metodo === "GET") {
             require_once __DIR__ . "/../pages/" . $script['script'];
+            break;
+        } else if ($rota === $url && $script["status"] === "publica" && $metodo === "POST") {
+            require_once __DIR__ . "/../controllers/" . $script["script"];
+            break;
         } else {
             http_response_code(404);
             die("Não existe essa rota no sistema...");
