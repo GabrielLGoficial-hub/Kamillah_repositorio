@@ -26,3 +26,13 @@ function consultarTentativasAcessoPorIp(string $ip)
         return $bd->query($sql, [$ip])['quantidadeAcesso'];
     }
 }
+
+function sanitizarIdentificadores(string $identificador)
+{
+    return str_replace(["/", "-"], "", $identificador);
+}
+
+function validarEmail(string $email): bool
+{
+    return preg_match('/\A[^@\s]+@[^@\s.]+(?:\.[^@\s.]+)+\z/', $email) === 1;
+}
