@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/../src/classes/BD.php";
 require_once __DIR__ . "/../src/classes/GeradorLogs.php";
-require_once __DIR__ . "/../src/utils/utils.php";
+require_once __DIR__ . "/../src/utils/Utils.php";
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     http_response_code(404);
@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 }
 
 //variaveis
-$bd = BD::getInstancia("administrcao");
+$bd = BD::getInstancia("administracao");
 $cnpj = $_POST["cnpj"] ?? "";
 $cpf = $_POST["cpf"] ?? "";
 $razaoSocial = $_POST["razaoSocial"] ?? "";
@@ -19,14 +19,14 @@ $senha = $_POST["senha"] ?? "";
 $ip = $_SERVER["REMOTE_ADDR"];
 
 if ($cnpj !== "") {
-    $cnpj = trim(sanitizarIdentificadores($cnpj));
+    $cnpj = trim(Utils::sanitizarIdentificadores($cnpj));
 }
 
 if ($cpf !== "") {
-    $cpf = trim(sanitizarIdentificadores($cpf));
+    $cpf = trim(Utils::sanitizarIdentificadores($cpf));
 }
 
-if (!validarEmail($email)) {
+if (!Utils::validarEmail($email)) {
     http_response_code(400);
     die("Email inválido");
 }
@@ -35,7 +35,6 @@ if ($senha !== "") {
     $senha = password_hash($senha, "sha512");
 }
 
-$numeroTentativas = consultarTentativasAcessoPorIp($ip);
-if($numeroTentativas > 0){
-    
+$numeroTentativas = Utils::consultarTentativasAcessoPorIp($ip);
+if ($numeroTentativas > 0) {
 }

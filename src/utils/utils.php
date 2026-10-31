@@ -1,38 +1,8 @@
 <?php
-function registrarAcessoPorIp(string $ip)
+class Utils
 {
-    global $bd;
-
-    $dataAtual = date("Y-m-d");
-    $quantidadeAcessos = 0;
-    if ($ip !== "") {
-        $tentativas = consultarTentativasAcessoPorIp($ip);
-        if (!empty($tentativas)) {
-            $quantidadeAcessos++;
-        }
-
-        $sql = "INSERT INTO tbl_controle_acessos_adm(ip,quantidadeAcesso,dataAcessoControle)
-        VALUES(?,?,?)";
-        $bd->query($sql, [$ip, $quantidadeAcessos, $dataAtual]);
+    public static function validarEmail(string $email): bool
+    {
+        return preg_match('/\A[^@\s]+@[^@\s.]+(?:\.[^@\s.]+)+\z/', $email) === 1;
     }
-}
-
-function consultarTentativasAcessoPorIp(string $ip)
-{
-    global $bd;
-
-    if ($ip !== "") {
-        $sql = "SELECT quantidadeAcesso FROM tbl_controle_acessos_adm WHERE ip = ?";
-        return $bd->query($sql, [$ip])['quantidadeAcesso'];
-    }
-}
-
-function sanitizarIdentificadores(string $identificador)
-{
-    return str_replace(["/", "-"], "", $identificador);
-}
-
-function validarEmail(string $email): bool
-{
-    return preg_match('/\A[^@\s]+@[^@\s.]+(?:\.[^@\s.]+)+\z/', $email) === 1;
 }
