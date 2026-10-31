@@ -7,7 +7,7 @@ class RegistroRepository
 
     private BD $db;
     private QueryBuilder $builder;
-    private string $banco;
+    
 
     public function __construct()
     {
@@ -15,8 +15,15 @@ class RegistroRepository
         $this->builder = new QueryBuilder();
     }
 
-    public function listarTentativasRegistro(array $colunas, string $tabela, string $where, array $values,) 
+    public function listarTentativasRegistro(array $colunas, string $tabela, string $where, array $values)
     {
+        $db = $this->db;
+        $builder = $this->builder;
+        $builder->select($colunas);
+        $builder->from($tabela);
+        $builder->where($where, $values);
+        $result = $db->query($builder->getSql(), $builder->getValores());
 
+        return ['sql' => $builder->getSql(), "result" => $result];
     }
 }
