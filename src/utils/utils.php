@@ -11,4 +11,23 @@ class Utils
         $identificadorSanitizado = str_replace(["/", "-"], "", $identificador);
         return $identificadorSanitizado;
     }
+
+    public static function enviarRespostaJson(array $resposta)
+    {
+        if (isset($resposta)) {
+        }
+    }
+
+    public static function converterCodificacaoUtf8(mixed $termo)
+    {
+        if (empty($termo)) {
+            return false;
+        }
+
+        $codificacaoAtual = mb_detect_encoding($termo);
+        if (is_array($termo)) {
+            return array_map(fn($v) => mb_convert_encoding($v, "UTF-8", $codificacaoAtual), $termo);
+        }
+        return mb_convert_encoding($termo, "UTF-8", $codificacaoAtual);
+    }
 }

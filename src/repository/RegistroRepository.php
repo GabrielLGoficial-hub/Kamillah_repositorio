@@ -7,7 +7,7 @@ class RegistroRepository
 
     private BD $db;
     private QueryBuilder $builder;
-    
+
 
     public function __construct()
     {
@@ -27,7 +27,13 @@ class RegistroRepository
         return ['sql' => $builder->getSql(), "result" => $result];
     }
 
-    public function inserirRegistroTentativas(){
+    public function inserirRegistro(array $colunas, string $valores, array $data)
+    {
+        $db = $this->db;
+        $builder = $this->builder;
+        $builder->insert($colunas, $valores, $data);
 
+        $result = $db->query($builder->getSql(), $builder->getValores());
+        return ['sql' => $builder->getSql(), 'result' => $result];
     }
 }

@@ -111,5 +111,9 @@
             desabilitarCamposFisica();
         })
 
+        //evento do botão do formulario
+        document.getElementById("btnRegistrar").addEventListener("submit",function(){
+            var from = FormData.
+        });
     });
 </script>

@@ -42,7 +42,9 @@ class RegistroService
         return false;
     }
 
-    public function capturarTentativasRegistro(array $valores,){
+    public function capturarTentativasRegistro(array $data){
+        $colunas = ['ip',];
+        $this->repository->inserirRegistro();
         
     }
 
