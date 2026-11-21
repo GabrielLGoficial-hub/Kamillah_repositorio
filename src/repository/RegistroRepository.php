@@ -27,7 +27,7 @@ class RegistroRepository
         return ['sql' => $builder->getSql(), "result" => $result];
     }
 
-    public function inserirRegistro(array $colunas, string $valores, array $data)
+    public function inserirRegistro(array $colunas, array $valores, array $data)
     {
         $db = $this->db;
         $builder = $this->builder;

@@ -14,8 +14,11 @@ class Utils
 
     public static function enviarRespostaJson(array $resposta)
     {
-        if (isset($resposta)) {
+        if (empty($resposta)) {
+            return false;
         }
+
+        echo json_encode($resposta, JSON_UNESCAPED_SLASHES . '|' . JSON_UNESCAPED_UNICODE);
     }
 
     public static function converterCodificacaoUtf8(mixed $termo)

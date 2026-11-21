@@ -42,10 +42,10 @@ class RegistroService
         return false;
     }
 
-    public function capturarTentativasRegistro(array $data){
-        $colunas = ['ip',];
-        $this->repository->inserirRegistro();
-        
+    public function capturarTentativasRegistro(array $data)
+    {
+        $colunas = ['ip', 'quantidadeAcesso', 'dataAcessoControle'];
+        $value = ['?', '?', '?'];
+        $this->repository->inserirRegistro($colunas, $value, $data);
     }
-
 }

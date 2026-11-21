@@ -1,40 +1,23 @@
 <?php
-require_once __DIR__ . "/../src/classes/BD.php";
-require_once __DIR__ . "/../src/classes/GeradorLogs.php";
-require_once __DIR__ . "/../src/utils/Utils.php";
+require_once __DIR__ . "/../services/RegistroService.php";
+require_once __DIR__ . "/../classes/SessionMestre.php";
+require_once __DIR__ . "/../utils/Utils.php";
 
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    http_response_code(404);
-    die("Página não encontrada");
+$metodo = $_SERVER['REQUEST_METHOD'] ?? NULL;
+
+if ($metodo !== "POST" || $metodo === null) {
+    Utils::enviarRespostaJson(['mensage' => "metodo de requisicao não suportado"]);
 }
 
-//variaveis
-$bd = BD::getInstancia("administracao");
-$cnpj = $_POST["cnpj"] ?? "";
-$cpf = $_POST["cpf"] ?? "";
-$razaoSocial = $_POST["razaoSocial"] ?? "";
-$nomeFantasia = $_POST["nomeFantasia"] ?? "";
-$email = trim($_POST["email"] ?? "");
-$senha = $_POST["senha"] ?? "";
-$ip = $_SERVER["REMOTE_ADDR"];
+try {
+    $service = new RegistroService();
+    $ip = $_SERVER['REMOTE_ADDR'] ?? null;
 
-if ($cnpj !== "") {
-    $cnpj = trim(Utils::sanitizarIdentificadores($cnpj));
-}
+    ($ip === null){
+        throw new Exception("ip invalido");
+    }
 
-if ($cpf !== "") {
-    $cpf = trim(Utils::sanitizarIdentificadores($cpf));
-}
-
-if (!Utils::validarEmail($email)) {
-    http_response_code(400);
-    die("Email inválido");
-}
-
-if ($senha !== "") {
-    $senha = password_hash($senha, "sha512");
-}
-
-$numeroTentativas = Utils::consultarTentativasAcessoPorIp($ip);
-if ($numeroTentativas > 0) {
+    $service->verificarLimiteDeAcessosPorIp();
+} catch (Exception $e) {
+    Utils::enviarRespostaJson([$e->getMessage(),$e->getCode()]);
 }

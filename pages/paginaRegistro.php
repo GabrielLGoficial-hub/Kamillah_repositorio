@@ -112,8 +112,38 @@
         })
 
         //evento do botão do formulario
-        document.getElementById("btnRegistrar").addEventListener("submit",function(){
-            var from = FormData.
+        document.getElementById("btnRegistrar").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            var form = document.querySelector("form");
+            var data = new FormData(form);
+
+            fetch("../src/controllers/controllerRegistro.php", {
+                    method: 'POST',
+                    body: data
+                })
+                .then(response => {
+                    try {
+                        if (!response.ok) {
+                            throw new Error("Não foi possivel capturar a respota do controller");
+                        }
+                        response.json();
+                    } catch (err) {
+                        console.log(err.message);
+                    }
+                })
+                .then(data => {
+                    try {
+                        if (!data) {
+                            throw new Error("Retorno inesperado");
+                        }
+                    } catch (err) {
+                        console.log(err.message);
+                    }
+                })
+                .catch(error => {
+                    console.log("erro inesperado na requisicao: " + error);
+                });
         });
     });
 </script>

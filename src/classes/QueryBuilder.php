@@ -52,7 +52,7 @@ class QueryBuilder
         }
     }
 
-    public function insert(array $colunas, string $value, array $data, bool $ignore = false): void
+    public function insert(array $colunas, array $value, array $data, bool $ignore = false): void
     {
         if ($colunas !== "" && $value !== "" && count($data) > 0) {
             $colunas = implode(",", $colunas);
