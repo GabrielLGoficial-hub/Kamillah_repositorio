@@ -12,12 +12,15 @@ if ($metodo !== "POST" || $metodo === null) {
 try {
     $service = new RegistroService();
     $ip = $_SERVER['REMOTE_ADDR'] ?? null;
+    $tentativaRegistro = 1;
+    $dataRegistro = time();
 
-    ($ip === null){
+    if ($ip === null) {
         throw new Exception("ip invalido");
     }
 
-    $service->verificarLimiteDeAcessosPorIp();
+    $service->verificarLimiteDeAcessosPorIp($ip);
+    $service->capturarTentativasRegistro([$ip, $tentativaRegistro, $dataRegistro]);
 } catch (Exception $e) {
-    Utils::enviarRespostaJson([$e->getMessage(),$e->getCode()]);
+    Utils::enviarRespostaJson([$e->getMessage(), $e->getCode()]);
 }

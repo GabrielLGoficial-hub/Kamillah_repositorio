@@ -31,6 +31,7 @@ class RegistroRepository
     {
         $db = $this->db;
         $builder = $this->builder;
+        $builder->setTabela("tbl_controle_acesso_adm");
         $builder->insert($colunas, $valores, $data);
 
         $result = $db->query($builder->getSql(), $builder->getValores());

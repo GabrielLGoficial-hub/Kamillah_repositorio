@@ -114,10 +114,10 @@
         //evento do botão do formulario
         document.getElementById("btnRegistrar").addEventListener("submit", function(e) {
             e.preventDefault();
-            
+
             var form = document.querySelector("form");
             var data = new FormData(form);
-
+            console.log(data);
             fetch("../src/controllers/controllerRegistro.php", {
                     method: 'POST',
                     body: data

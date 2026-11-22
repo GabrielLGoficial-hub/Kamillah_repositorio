@@ -85,4 +85,9 @@ class QueryBuilder
     {
         return $this->valores;
     }
+
+    public function setTable(string $tabela)
+    {
+        $this->tabela = $tabela;
+    }
 }
